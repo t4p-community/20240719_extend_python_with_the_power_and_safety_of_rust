@@ -2,6 +2,7 @@
     resolver = "2"
 
 members = [
+    "demos/py_rust_welcome",
     "demos/01_py_hello_world",
     "demos/02_py_type_conversion_traits",
     "demos/03_py_parallelism",

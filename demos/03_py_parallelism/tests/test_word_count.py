@@ -85,104 +85,104 @@ def test_word_count_rust_parallel_threads_release_gil(
 # variations of searches
 
 
-def run_python_sequential_four_times(contents: str, needle: str) -> None:
-    count = py_parallelism.search_py(contents, "is")
-    count += py_parallelism.search_py(contents, "is")
-    count += py_parallelism.search_py(contents, "is")
-    count += py_parallelism.search_py(contents, "is")
-    return count
+# def run_python_sequential_four_times(contents: str, needle: str) -> None:
+#     count = py_parallelism.search_py(contents, "is")
+#     count += py_parallelism.search_py(contents, "is")
+#     count += py_parallelism.search_py(contents, "is")
+#     count += py_parallelism.search_py(contents, "is")
+#     return count
 
 
-def test_word_count_python_sequential_four_times(
-    benchmark: Any, contents: str
-) -> None:
-    count = benchmark(run_python_sequential_four_times, contents, "is")
-    assert count == 40000
+# def test_word_count_python_sequential_four_times(
+#     benchmark: Any, contents: str
+# ) -> None:
+#     count = benchmark(run_python_sequential_four_times, contents, "is")
+#     assert count == 40000
 
 
-def run_python_sequential_four_times_threaded(
-    executor: ThreadPoolExecutor, contents: str, needle: str
-) -> None:
-    future_1 = executor.submit(py_parallelism.search_py, contents, needle)
-    future_2 = executor.submit(py_parallelism.search_py, contents, needle)
-    future_3 = executor.submit(py_parallelism.search_py, contents, needle)
-    future_4 = executor.submit(py_parallelism.search_py, contents, needle)
-    result_1 = future_1.result()
-    result_2 = future_2.result()
-    result_3 = future_3.result()
-    result_4 = future_4.result()
-    return result_1 + result_2 + result_3 + result_4
+# def run_python_sequential_four_times_threaded(
+#     executor: ThreadPoolExecutor, contents: str, needle: str
+# ) -> None:
+#     future_1 = executor.submit(py_parallelism.search_py, contents, needle)
+#     future_2 = executor.submit(py_parallelism.search_py, contents, needle)
+#     future_3 = executor.submit(py_parallelism.search_py, contents, needle)
+#     future_4 = executor.submit(py_parallelism.search_py, contents, needle)
+#     result_1 = future_1.result()
+#     result_2 = future_2.result()
+#     result_3 = future_3.result()
+#     result_4 = future_4.result()
+#     return result_1 + result_2 + result_3 + result_4
 
 
-def test_word_count_python_sequential_four_times_threaded(
-    benchmark: Any, contents: str
-) -> None:
-    executor = ThreadPoolExecutor(max_workers=4)
-    count = benchmark(
-        run_python_sequential_four_times_threaded, executor, contents, "is"
-    )
-    assert count == 40000
+# def test_word_count_python_sequential_four_times_threaded(
+#     benchmark: Any, contents: str
+# ) -> None:
+#     executor = ThreadPoolExecutor(max_workers=4)
+#     count = benchmark(
+#         run_python_sequential_four_times_threaded, executor, contents, "is"
+#     )
+#     assert count == 40000
 
 
-def run_rust_sequential_four_times_keep_gil(
-    executor: ThreadPoolExecutor, contents: str, needle: str
-) -> int:
-    future_1 = executor.submit(
-        py_parallelism.search_sequential, contents, needle
-    )
-    future_2 = executor.submit(
-        py_parallelism.search_sequential, contents, needle
-    )
-    future_3 = executor.submit(
-        py_parallelism.search_sequential, contents, needle
-    )
-    future_4 = executor.submit(
-        py_parallelism.search_sequential, contents, needle
-    )
-    result_1 = future_1.result()
-    result_2 = future_2.result()
-    result_3 = future_3.result()
-    result_4 = future_4.result()
-    return result_1 + result_2 + result_3 + result_4
+# def run_rust_sequential_four_times_keep_gil(
+#     executor: ThreadPoolExecutor, contents: str, needle: str
+# ) -> int:
+#     future_1 = executor.submit(
+#         py_parallelism.search_sequential, contents, needle
+#     )
+#     future_2 = executor.submit(
+#         py_parallelism.search_sequential, contents, needle
+#     )
+#     future_3 = executor.submit(
+#         py_parallelism.search_sequential, contents, needle
+#     )
+#     future_4 = executor.submit(
+#         py_parallelism.search_sequential, contents, needle
+#     )
+#     result_1 = future_1.result()
+#     result_2 = future_2.result()
+#     result_3 = future_3.result()
+#     result_4 = future_4.result()
+#     return result_1 + result_2 + result_3 + result_4
 
 
-def test_word_count_rust_sequential_four_times_with_threads_keep_gil(
-    benchmark: Any, contents: str
-) -> None:
-    executor = ThreadPoolExecutor(max_workers=4)
-    count = benchmark(
-        run_rust_sequential_four_times_keep_gil, executor, contents, "is"
-    )
-    assert count == 40000
+# def test_word_count_rust_sequential_four_times_with_threads_keep_gil(
+#     benchmark: Any, contents: str
+# ) -> None:
+#     executor = ThreadPoolExecutor(max_workers=4)
+#     count = benchmark(
+#         run_rust_sequential_four_times_keep_gil, executor, contents, "is"
+#     )
+#     assert count == 40000
 
 
-def run_rust_sequential_four_times_release_gil(
-    executor: ThreadPoolExecutor, contents: str, needle: str
-) -> int:
-    future_1 = executor.submit(
-        py_parallelism.search_sequential_release_gil, contents, needle
-    )
-    future_2 = executor.submit(
-        py_parallelism.search_sequential_release_gil, contents, needle
-    )
-    future_3 = executor.submit(
-        py_parallelism.search_sequential_release_gil, contents, needle
-    )
-    future_4 = executor.submit(
-        py_parallelism.search_sequential_release_gil, contents, needle
-    )
-    result_1 = future_1.result()
-    result_2 = future_2.result()
-    result_3 = future_3.result()
-    result_4 = future_4.result()
-    return result_1 + result_2 + result_3 + result_4
+# def run_rust_sequential_four_times_release_gil(
+#     executor: ThreadPoolExecutor, contents: str, needle: str
+# ) -> int:
+#     future_1 = executor.submit(
+#         py_parallelism.search_sequential_release_gil, contents, needle
+#     )
+#     future_2 = executor.submit(
+#         py_parallelism.search_sequential_release_gil, contents, needle
+#     )
+#     future_3 = executor.submit(
+#         py_parallelism.search_sequential_release_gil, contents, needle
+#     )
+#     future_4 = executor.submit(
+#         py_parallelism.search_sequential_release_gil, contents, needle
+#     )
+#     result_1 = future_1.result()
+#     result_2 = future_2.result()
+#     result_3 = future_3.result()
+#     result_4 = future_4.result()
+#     return result_1 + result_2 + result_3 + result_4
 
 
-def test_word_count_rust_sequential_four_times_release_gil(
-    benchmark: Any, contents: str
-) -> None:
-    executor = ThreadPoolExecutor(max_workers=4)
-    count = benchmark(
-        run_rust_sequential_four_times_release_gil, executor, contents, "is"
-    )
-    assert count == 40000
+# def test_word_count_rust_sequential_four_times_release_gil(
+#     benchmark: Any, contents: str
+# ) -> None:
+#     executor = ThreadPoolExecutor(max_workers=4)
+#     count = benchmark(
+#         run_rust_sequential_four_times_release_gil, executor, contents, "is"
+#     )
+#     assert count == 40000

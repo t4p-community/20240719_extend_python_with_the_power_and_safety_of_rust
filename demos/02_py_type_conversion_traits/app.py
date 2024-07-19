@@ -5,6 +5,9 @@ from datetime import date
 def main() -> None:
     # Example 1 - Add two numbers and print the result and its type.
 
+    # every value/structure is an object in Python
+    # every value/structure is a PyObject type in C
+
     result = tc.add(1, 2)
     print(result, type(result))
 

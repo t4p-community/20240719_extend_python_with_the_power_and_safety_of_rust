@@ -831,6 +831,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "py_rust_welcome"
+version = "0.1.0"
+dependencies = [
+ "pyo3",
+]
+
+[[package]]
 name = "py_type_conversion_traits"
 version = "0.1.0"
 dependencies = [

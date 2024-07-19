@@ -48,7 +48,7 @@ create_exception!(py_type_conversion_traits, StockPriceError, PyException);
 #[pyfunction]
 fn get_stock_price(py: Python<'_>, stock_symbol: String) -> PyResult<&PyAny> {
     pyo3_asyncio::tokio::future_into_py(py, async move {
-        // return Err(PyErr::new::<StockPriceError, _>(format!("fake error")));
+        return Err(PyErr::new::<StockPriceError, _>(format!("fake error")));
 
         let last_price_re = Regex::new(LAST_PRICE_PATTERN)
             .map_err(|e| PyErr::new::<PyValueError, _>(format!("{}", e)))?;
